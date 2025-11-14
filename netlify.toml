@@ -1,0 +1,11 @@
+[build]
+  command = "chmod +x build_netlify.sh && ./build_netlify.sh"
+  publish = "dist"
+
+[build.environment]
+  EMSDK_VERSION = "3.1.47"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
