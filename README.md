@@ -1,8 +1,20 @@
 # Frankenstein Neural Web ⚡
 
-A browser-based artificial neural network with WebAssembly SIMD optimization. Train networks on CSV data with mixed numeric and categorical features.
+A browser-based artificial neural network with WebAssembly SIMD optimization. Train networks on CSV data with mixed numeric and categorical features, featuring configurable architectures, multiple activation functions, and real-time visualizations.
 
 ## 🚀 [Try it Now - Live Demo](https://app.netlify.com/projects/frankensteinneuralweb/overview)
+
+## ✨ Features
+
+- **Pre-loaded Datasets**: XOR, Linear Regression, and Iris Setosa for quick experimentation
+- **Configurable Architecture**: Adjust hidden layer size from 2 to 20 neurons
+- **Multiple Activation Functions**: Choose between Sigmoid, ReLU, or Tanh
+- **Real-time Visualizations**: 
+  - Interactive loss graph tracking training progress
+  - Weight heatmaps showing learned network patterns
+  - Accuracy metrics for classification tasks
+- **Mixed Data Support**: Handles numeric and categorical features automatically
+- **Browser-based**: Runs entirely in your browser with WebAssembly SIMD acceleration
 
 ## Quick Start
 
@@ -31,10 +43,36 @@ x1,x2,x3,y
 
 ## Architecture
 
-- **Input Layer**: 1-10 neurons
-- **Hidden Layer**: 6 neurons
+- **Input Layer**: 1-10 neurons (auto-configured based on data)
+- **Hidden Layer**: 2-20 neurons (user-configurable, default: 6)
 - **Output Layer**: 1 neuron
-- **Tech**: WebAssembly SIMD + C + JavaScript
+- **Activation Functions**: Sigmoid, ReLU, or Tanh (user-selectable)
+- **Training**: 1000 epochs with gradient descent and backpropagation
+- **Tech Stack**: WebAssembly SIMD + C + JavaScript
+
+## Network Configuration
+
+### Activation Functions
+
+- **Sigmoid**: Classic smooth function, ideal for binary classification (0-1 output)
+- **ReLU**: Fast and efficient, great for regression and deep networks
+- **Tanh**: Similar to sigmoid but outputs range from -1 to 1
+
+### Hidden Layer Size
+
+Adjust the number of hidden neurons to match your problem complexity:
+- **2-5 neurons**: Simple patterns, faster training
+- **6-10 neurons**: Moderate complexity (default: 6)
+- **11-20 neurons**: Complex patterns, more learning capacity
+
+## Visualizations
+
+- **Loss Graph**: Real-time plot showing training error over 1000 epochs
+- **Weight Heatmaps**: Visual representation of learned connections
+  - Input → Hidden layer weights
+  - Hidden → Output layer weights
+  - Color coding: Red (positive), Blue (negative)
+- **Accuracy Metrics**: Classification accuracy percentage for binary problems
 
 ## Troubleshooting
 
@@ -56,15 +94,13 @@ emsdk_env.bat                        # Windows
 - Normalize data to [0, 1] range
 - Ensure sufficient samples (10+ rows)
 
-## Testing
+## Pre-loaded Datasets
 
-Run integration tests:
-```bash
-python -m http.server 8000
-# Open: http://localhost:8000/test_integration.html
-```
+Three classic machine learning problems are included:
 
-See `TESTING.md` and `INTEGRATION_TEST_CHECKLIST.md` for detailed test procedures.
+1. **XOR Problem**: Non-linear classification with 2 binary inputs
+2. **Simple Linear Regression**: Continuous value prediction
+3. **Iris Setosa Classification**: Binary classification from the famous Iris dataset
 
 ## License
 

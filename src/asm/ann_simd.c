@@ -100,6 +100,259 @@ float sigmoid_derivative(float sigmoid_out) {
 }
 
 // ============================================================================
+// relu_forward_simd: Apply ReLU activation using WASM SIMD
+// Formula: max(0, x)
+// Parameters:
+//   input = input vector pointer
+//   output = output vector pointer
+//   length = number of elements
+// Returns:
+//   void (writes to output)
+// Optimizations:
+//   - Loop unrolling for 8 elements at a time
+//   - SIMD max operation for parallel processing
+// ============================================================================
+void relu_forward_simd(float* input, float* output, int length) {
+    if (length == 0) return;
+    
+    v128_t zero = wasm_f32x4_splat(0.0f);
+    int i = 0;
+    
+    // Process 8 floats at a time using SIMD (loop unrolling)
+    int simd_length = length & ~7;  // Round down to multiple of 8
+    for (i = 0; i < simd_length; i += 8) {
+        v128_t input_vec1 = wasm_v128_load(&input[i]);
+        v128_t input_vec2 = wasm_v128_load(&input[i + 4]);
+        
+        v128_t output_vec1 = wasm_f32x4_max(input_vec1, zero);
+        v128_t output_vec2 = wasm_f32x4_max(input_vec2, zero);
+        
+        wasm_v128_store(&output[i], output_vec1);
+        wasm_v128_store(&output[i + 4], output_vec2);
+    }
+    
+    // Process remaining 4-element chunks
+    int simd_length4 = length & ~3;
+    for (; i < simd_length4; i += 4) {
+        v128_t input_vec = wasm_v128_load(&input[i]);
+        v128_t output_vec = wasm_f32x4_max(input_vec, zero);
+        wasm_v128_store(&output[i], output_vec);
+    }
+    
+    // Process remaining elements (scalar)
+    for (; i < length; i++) {
+        output[i] = (input[i] > 0.0f) ? input[i] : 0.0f;
+    }
+}
+
+// ============================================================================
+// relu_backward_simd: Compute ReLU derivative using WASM SIMD
+// Formula: 1 if x > 0, else 0
+// Parameters:
+//   input = original input vector pointer
+//   grad_output = gradient from next layer
+//   grad_input = gradient to propagate (output)
+//   length = number of elements
+// Returns:
+//   void (writes to grad_input)
+// Optimizations:
+//   - SIMD comparison and masking operations
+//   - Loop unrolling for 8 elements at a time
+// ============================================================================
+void relu_backward_simd(float* input, float* grad_output, float* grad_input, int length) {
+    if (length == 0) return;
+    
+    v128_t zero = wasm_f32x4_splat(0.0f);
+    int i = 0;
+    
+    // Process 8 floats at a time using SIMD (loop unrolling)
+    int simd_length = length & ~7;  // Round down to multiple of 8
+    for (i = 0; i < simd_length; i += 8) {
+        v128_t input_vec1 = wasm_v128_load(&input[i]);
+        v128_t input_vec2 = wasm_v128_load(&input[i + 4]);
+        v128_t grad_out1 = wasm_v128_load(&grad_output[i]);
+        v128_t grad_out2 = wasm_v128_load(&grad_output[i + 4]);
+        
+        // Create mask: 1 if input > 0, else 0
+        v128_t mask1 = wasm_f32x4_gt(input_vec1, zero);
+        v128_t mask2 = wasm_f32x4_gt(input_vec2, zero);
+        
+        // Apply mask to gradient
+        v128_t grad_in1 = wasm_v128_and(grad_out1, mask1);
+        v128_t grad_in2 = wasm_v128_and(grad_out2, mask2);
+        
+        wasm_v128_store(&grad_input[i], grad_in1);
+        wasm_v128_store(&grad_input[i + 4], grad_in2);
+    }
+    
+    // Process remaining 4-element chunks
+    int simd_length4 = length & ~3;
+    for (; i < simd_length4; i += 4) {
+        v128_t input_vec = wasm_v128_load(&input[i]);
+        v128_t grad_out = wasm_v128_load(&grad_output[i]);
+        
+        v128_t mask = wasm_f32x4_gt(input_vec, zero);
+        v128_t grad_in = wasm_v128_and(grad_out, mask);
+        
+        wasm_v128_store(&grad_input[i], grad_in);
+    }
+    
+    // Process remaining elements (scalar)
+    for (; i < length; i++) {
+        grad_input[i] = (input[i] > 0.0f) ? grad_output[i] : 0.0f;
+    }
+}
+
+// ============================================================================
+// tanh_forward_simd: Apply tanh activation using fast approximation with SIMD
+// Formula: tanh(x) ≈ x * (27 + x²) / (27 + 9x²)
+// Parameters:
+//   input = input vector pointer
+//   output = output vector pointer
+//   length = number of elements
+// Returns:
+//   void (writes to output)
+// Optimizations:
+//   - Fast polynomial approximation
+//   - SIMD operations for parallel computation
+//   - Clamping for extreme values
+// ============================================================================
+void tanh_forward_simd(float* input, float* output, int length) {
+    if (length == 0) return;
+    
+    int i = 0;
+    
+    // Process 8 floats at a time using SIMD (loop unrolling)
+    int simd_length = length & ~7;  // Round down to multiple of 8
+    for (i = 0; i < simd_length; i += 8) {
+        v128_t x1 = wasm_v128_load(&input[i]);
+        v128_t x2 = wasm_v128_load(&input[i + 4]);
+        
+        // Clamp extreme values for stability
+        v128_t min_val = wasm_f32x4_splat(-5.0f);
+        v128_t max_val = wasm_f32x4_splat(5.0f);
+        x1 = wasm_f32x4_max(wasm_f32x4_min(x1, max_val), min_val);
+        x2 = wasm_f32x4_max(wasm_f32x4_min(x2, max_val), min_val);
+        
+        // Compute x²
+        v128_t x_sq1 = wasm_f32x4_mul(x1, x1);
+        v128_t x_sq2 = wasm_f32x4_mul(x2, x2);
+        
+        // Compute numerator: x * (27 + x²)
+        v128_t c27 = wasm_f32x4_splat(27.0f);
+        v128_t num1 = wasm_f32x4_mul(x1, wasm_f32x4_add(c27, x_sq1));
+        v128_t num2 = wasm_f32x4_mul(x2, wasm_f32x4_add(c27, x_sq2));
+        
+        // Compute denominator: 27 + 9x²
+        v128_t c9 = wasm_f32x4_splat(9.0f);
+        v128_t denom1 = wasm_f32x4_add(c27, wasm_f32x4_mul(c9, x_sq1));
+        v128_t denom2 = wasm_f32x4_add(c27, wasm_f32x4_mul(c9, x_sq2));
+        
+        // Compute tanh approximation
+        v128_t result1 = wasm_f32x4_div(num1, denom1);
+        v128_t result2 = wasm_f32x4_div(num2, denom2);
+        
+        wasm_v128_store(&output[i], result1);
+        wasm_v128_store(&output[i + 4], result2);
+    }
+    
+    // Process remaining 4-element chunks
+    int simd_length4 = length & ~3;
+    for (; i < simd_length4; i += 4) {
+        v128_t x = wasm_v128_load(&input[i]);
+        
+        // Clamp extreme values
+        v128_t min_val = wasm_f32x4_splat(-5.0f);
+        v128_t max_val = wasm_f32x4_splat(5.0f);
+        x = wasm_f32x4_max(wasm_f32x4_min(x, max_val), min_val);
+        
+        v128_t x_sq = wasm_f32x4_mul(x, x);
+        v128_t c27 = wasm_f32x4_splat(27.0f);
+        v128_t c9 = wasm_f32x4_splat(9.0f);
+        
+        v128_t num = wasm_f32x4_mul(x, wasm_f32x4_add(c27, x_sq));
+        v128_t denom = wasm_f32x4_add(c27, wasm_f32x4_mul(c9, x_sq));
+        v128_t result = wasm_f32x4_div(num, denom);
+        
+        wasm_v128_store(&output[i], result);
+    }
+    
+    // Process remaining elements (scalar)
+    for (; i < length; i++) {
+        float x = input[i];
+        // Clamp for stability
+        if (x < -5.0f) x = -5.0f;
+        if (x > 5.0f) x = 5.0f;
+        
+        float x_sq = x * x;
+        output[i] = x * (27.0f + x_sq) / (27.0f + 9.0f * x_sq);
+    }
+}
+
+// ============================================================================
+// tanh_backward_simd: Compute tanh derivative using WASM SIMD
+// Formula: 1 - tanh²(x)
+// Parameters:
+//   output = tanh output (pre-computed forward pass)
+//   grad_output = gradient from next layer
+//   grad_input = gradient to propagate (output)
+//   length = number of elements
+// Returns:
+//   void (writes to grad_input)
+// Optimizations:
+//   - Uses pre-computed tanh output to avoid recomputation
+//   - SIMD operations for parallel computation
+//   - Loop unrolling for 8 elements at a time
+// ============================================================================
+void tanh_backward_simd(float* output, float* grad_output, float* grad_input, int length) {
+    if (length == 0) return;
+    
+    v128_t one = wasm_f32x4_splat(1.0f);
+    int i = 0;
+    
+    // Process 8 floats at a time using SIMD (loop unrolling)
+    int simd_length = length & ~7;  // Round down to multiple of 8
+    for (i = 0; i < simd_length; i += 8) {
+        v128_t tanh_out1 = wasm_v128_load(&output[i]);
+        v128_t tanh_out2 = wasm_v128_load(&output[i + 4]);
+        v128_t grad_out1 = wasm_v128_load(&grad_output[i]);
+        v128_t grad_out2 = wasm_v128_load(&grad_output[i + 4]);
+        
+        // Compute 1 - tanh²(x)
+        v128_t tanh_sq1 = wasm_f32x4_mul(tanh_out1, tanh_out1);
+        v128_t tanh_sq2 = wasm_f32x4_mul(tanh_out2, tanh_out2);
+        v128_t derivative1 = wasm_f32x4_sub(one, tanh_sq1);
+        v128_t derivative2 = wasm_f32x4_sub(one, tanh_sq2);
+        
+        // Multiply by gradient from next layer
+        v128_t grad_in1 = wasm_f32x4_mul(grad_out1, derivative1);
+        v128_t grad_in2 = wasm_f32x4_mul(grad_out2, derivative2);
+        
+        wasm_v128_store(&grad_input[i], grad_in1);
+        wasm_v128_store(&grad_input[i + 4], grad_in2);
+    }
+    
+    // Process remaining 4-element chunks
+    int simd_length4 = length & ~3;
+    for (; i < simd_length4; i += 4) {
+        v128_t tanh_out = wasm_v128_load(&output[i]);
+        v128_t grad_out = wasm_v128_load(&grad_output[i]);
+        
+        v128_t tanh_sq = wasm_f32x4_mul(tanh_out, tanh_out);
+        v128_t derivative = wasm_f32x4_sub(one, tanh_sq);
+        v128_t grad_in = wasm_f32x4_mul(grad_out, derivative);
+        
+        wasm_v128_store(&grad_input[i], grad_in);
+    }
+    
+    // Process remaining elements (scalar)
+    for (; i < length; i++) {
+        float tanh_out = output[i];
+        grad_input[i] = grad_output[i] * (1.0f - tanh_out * tanh_out);
+    }
+}
+
+// ============================================================================
 // update_weights: Update weights using gradient descent with WASM SIMD
 // Formula: weights[i] -= learning_rate * gradients[i]
 // Parameters:

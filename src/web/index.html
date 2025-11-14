@@ -25,9 +25,24 @@
             
             <div class="instructions-content" id="instructionsContent" style="display: none;">
                 
+                <!-- Pre-loaded Datasets -->
+                <div class="instruction-block">
+                    <h3>⚡ Pre-loaded Datasets</h3>
+                    <div class="instruction-text">
+                        <p><strong>Quick Start with Built-in Datasets:</strong></p>
+                        <p>Select from three classic machine learning problems to start experimenting immediately:</p>
+                        <ul>
+                            <li><strong>XOR Problem:</strong> Classic non-linear classification problem with 2 binary inputs</li>
+                            <li><strong>Simple Linear Regression:</strong> Predict continuous values with a linear relationship</li>
+                            <li><strong>Iris Setosa Classification:</strong> Binary classification using the famous Iris dataset</li>
+                        </ul>
+                        <p class="tip">💡 <strong>Tip:</strong> Pre-loaded datasets are perfect for testing different activation functions and network configurations without preparing your own data.</p>
+                    </div>
+                </div>
+
                 <!-- Data Preparation -->
                 <div class="instruction-block">
-                    <h3>⚡ Data Preparation</h3>
+                    <h3>⚡ Custom Data Preparation</h3>
                     <div class="instruction-text">
                         <p><strong>CSV Format Requirements:</strong></p>
                         <ul>
@@ -94,28 +109,60 @@ yellow,large,banana</pre>
                     </div>
                 </div>
 
+                <!-- Network Configuration -->
+                <div class="instruction-block">
+                    <h3>⚡ Network Configuration</h3>
+                    <div class="instruction-text">
+                        <p><strong>Customize Your Neural Network:</strong></p>
+                        <ul>
+                            <li><strong>Activation Function:</strong> Choose between Sigmoid, ReLU, or Tanh
+                                <ul>
+                                    <li><strong>Sigmoid:</strong> Classic smooth function, good for binary classification (0-1 output)</li>
+                                    <li><strong>ReLU:</strong> Fast and efficient, great for deep networks and regression</li>
+                                    <li><strong>Tanh:</strong> Similar to sigmoid but outputs range from -1 to 1</li>
+                                </ul>
+                            </li>
+                            <li><strong>Hidden Layer Size:</strong> Adjust from 2 to 20 neurons
+                                <ul>
+                                    <li>More neurons = more capacity to learn complex patterns</li>
+                                    <li>Fewer neurons = faster training, less prone to overfitting</li>
+                                    <li>Default: 6 neurons (good starting point for most problems)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <p class="tip">💡 <strong>Tip:</strong> Try different configurations! ReLU often trains faster, while Sigmoid is better for classification. Increase hidden neurons for complex patterns.</p>
+                    </div>
+                </div>
+
                 <!-- Training Process -->
                 <div class="instruction-block">
                     <h3>⚡ Training Process</h3>
                     <div class="instruction-text">
                         <p><strong>Step-by-Step Guide:</strong></p>
                         <ol>
-                            <li><strong>Upload CSV:</strong> Drag and drop or click to select your CSV file</li>
+                            <li><strong>Load Data:</strong> Select a pre-loaded dataset or upload your own CSV file</li>
+                            <li><strong>Configure Network:</strong> Choose activation function and hidden layer size</li>
                             <li><strong>Review Encoding:</strong> Check the data summary showing detected types and encodings</li>
                             <li><strong>Start Training:</strong> Click "Train Neural Core" to begin</li>
-                            <li><strong>Monitor Progress:</strong> Watch the loss value decrease in the terminal</li>
+                            <li><strong>Monitor Progress:</strong> Watch the loss graph and terminal output in real-time</li>
                             <li><strong>Wait for Completion:</strong> Training completes after 1000 epochs</li>
                         </ol>
                         
-                        <p><strong>Understanding Loss Values:</strong></p>
+                        <p><strong>Understanding Training Visualizations:</strong></p>
                         <ul>
-                            <li><strong>Loss:</strong> Measures how wrong the network's predictions are</li>
-                            <li><strong>Lower is better:</strong> Loss should decrease during training</li>
-                            <li><strong>Good training:</strong> Loss drops from ~0.5 to &lt;0.1</li>
-                            <li><strong>Stuck loss:</strong> If loss doesn't decrease, try different data or more rows</li>
+                            <li><strong>Loss Graph:</strong> Real-time plot showing how error decreases over time</li>
+                            <li><strong>Loss Value:</strong> Lower is better - should decrease during training</li>
+                            <li><strong>Accuracy:</strong> For classification problems, shows percentage of correct predictions</li>
+                            <li><strong>Weight Heatmaps:</strong> Visual representation of learned network weights
+                                <ul>
+                                    <li>Red = positive weights, Blue = negative weights</li>
+                                    <li>Brighter colors = stronger connections</li>
+                                </ul>
+                            </li>
                         </ul>
                         
-                        <p class="tip">💡 <strong>Tip:</strong> The network has 6 hidden neurons and uses gradient descent with backpropagation. Training runs for 1000 epochs automatically.</p>
+                        <p class="tip">💡 <strong>Tip:</strong> Good training shows smooth loss decrease. If loss plateaus early, try a different activation function or increase hidden layer size.</p>
                     </div>
                 </div>
 
@@ -150,10 +197,11 @@ yellow,large,banana</pre>
                     <div class="instruction-text">
                         <p><strong>Architecture:</strong></p>
                         <ul>
-                            <li>3-layer neural network: Input → Hidden (6 neurons) → Output</li>
-                            <li>Sigmoid activation functions</li>
+                            <li>3-layer neural network: Input → Hidden (2-20 neurons) → Output</li>
+                            <li>Configurable activation functions: Sigmoid, ReLU, or Tanh</li>
                             <li>Gradient descent optimization with backpropagation</li>
                             <li>Learning rate: 0.1</li>
+                            <li>Training: 1000 epochs with real-time visualization</li>
                         </ul>
                         
                         <p><strong>Performance:</strong></p>
@@ -162,6 +210,7 @@ yellow,large,banana</pre>
                             <li>Runs entirely in your browser - no server required</li>
                             <li>All data stays on your device</li>
                             <li>Optimized with x86-64 assembly instructions</li>
+                            <li>Real-time loss graphing and weight visualization</li>
                         </ul>
                         
                         <p><strong>Data Encoding:</strong></p>
@@ -170,6 +219,14 @@ yellow,large,banana</pre>
                             <li>Each unique string gets a sequential integer (0, 1, 2, ...)</li>
                             <li>Encoding is consistent and reversible</li>
                             <li>Numeric values pass through unchanged</li>
+                        </ul>
+                        
+                        <p><strong>Metrics & Visualization:</strong></p>
+                        <ul>
+                            <li>Loss tracking: Mean Squared Error (MSE) for all problems</li>
+                            <li>Accuracy: Percentage correct for classification tasks</li>
+                            <li>Interactive loss graph with epoch-by-epoch plotting</li>
+                            <li>Weight heatmaps showing learned patterns in the network</li>
                         </ul>
                     </div>
                 </div>
@@ -181,17 +238,62 @@ yellow,large,banana</pre>
             <!-- File Upload Section -->
             <section class="upload-section">
                 <h2>[ DATA INJECTION ]</h2>
-                <div class="upload-area" id="uploadArea">
-                    <input type="file" id="fileInput" accept=".csv" />
-                    <p>Drop CSV file here or click to select</p>
-                    <p class="file-hint">Format: x1,x2,...,xN,y (1-10 inputs)</p>
+                
+                <!-- Pre-loaded Dataset Selector -->
+                <div class="dataset-selector">
+                    <h3>Pre-loaded Datasets</h3>
+                    <div class="selector-controls">
+                        <select id="datasetSelect" class="dataset-dropdown">
+                            <option value="">-- Select a dataset --</option>
+                            <option value="xor">XOR Problem</option>
+                            <option value="linear_regression">Simple Linear Regression</option>
+                            <option value="iris_setosa">Iris Setosa Classification</option>
+                        </select>
+                        <button id="loadDatasetButton" class="action-button secondary-button" disabled>
+                            Load Dataset
+                        </button>
+                    </div>
+                    <div id="datasetInfo" class="dataset-info" style="display: none;"></div>
                 </div>
+                
+                <div class="data-source-divider">
+                    <span>OR</span>
+                </div>
+                
+                <!-- CSV Upload -->
+                <div class="csv-upload">
+                    <h3>Upload CSV File</h3>
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="fileInput" accept=".csv" />
+                        <p>Drop CSV file here or click to select</p>
+                        <p class="file-hint">Format: x1,x2,...,xN,y (1-10 inputs)</p>
+                    </div>
+                </div>
+                
                 <div id="validationMessage" class="message"></div>
             </section>
 
             <!-- Training Section -->
             <section class="training-section">
                 <h2>[ NEURAL CORE ACTIVATION ]</h2>
+                
+                <!-- Network Configuration Controls -->
+                <div id="configControls" class="config-controls" style="display: none;">
+                    <h3>Network Configuration</h3>
+                    <div class="config-group">
+                        <label for="activationSelect">Activation Function:</label>
+                        <select id="activationSelect" class="config-select">
+                            <option value="0">Sigmoid</option>
+                            <option value="1">ReLU</option>
+                            <option value="2">Tanh</option>
+                        </select>
+                    </div>
+                    <div class="config-group">
+                        <label for="hiddenSizeSlider">Hidden Layer Size: <span id="hiddenSizeValue" class="slider-value">6</span></label>
+                        <input type="range" id="hiddenSizeSlider" class="config-slider" min="2" max="20" value="6" step="1">
+                    </div>
+                </div>
+                
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
                     <button id="trainButton" class="action-button" disabled title="Train the neural network on uploaded data">
                         Train Neural Core
@@ -201,6 +303,28 @@ yellow,large,banana</pre>
                     </button>
                 </div>
                 <div id="networkConfig" class="network-config" style="display: none;"></div>
+                
+                <!-- Loss Graph Visualization -->
+                <div id="lossGraphContainer" class="loss-graph-container" style="display: none;">
+                    <h3>Training Loss</h3>
+                    <canvas id="lossGraphCanvas" width="600" height="300"></canvas>
+                    <div id="finalLossDisplay" class="final-loss-display"></div>
+                    <div id="accuracyDisplay" class="accuracy-display" style="display: none;"></div>
+                </div>
+                
+                <!-- Weight Heatmap Visualization -->
+                <div id="weightHeatmapContainer" class="weight-heatmap-container" style="display: none;">
+                    <h3>Network Weights</h3>
+                    <div class="heatmap-grid">
+                        <div class="heatmap-item">
+                            <canvas id="weightsIHCanvas" width="400" height="300"></canvas>
+                        </div>
+                        <div class="heatmap-item">
+                            <canvas id="weightsHOCanvas" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
                 <div id="trainingStatus" class="terminal"></div>
             </section>
 

@@ -9,7 +9,7 @@ if errorlevel 1 (
 
 if not exist build md build
 
-emcc src/c/ann_wrapper.c src/asm/ann_simd.c -o build/neurobrain.js -s EXPORTED_FUNCTIONS="[\"_train_ann\",\"_run_ann\",\"_malloc\",\"_free\"]" -s EXPORTED_RUNTIME_METHODS="[\"cwrap\",\"HEAPF32\"]" -s MODULARIZE=1 -s EXPORT_NAME="Module" -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s INITIAL_MEMORY=16MB -O3 -msimd128
+emcc src/c/ann_wrapper.c src/asm/ann_simd.c -o build/neurobrain.js -s EXPORTED_FUNCTIONS="[\"_train_ann\",\"_train_ann_v2\",\"_run_ann\",\"_get_weights\",\"_malloc\",\"_free\"]" -s EXPORTED_RUNTIME_METHODS="[\"cwrap\",\"HEAPF32\"]" -s MODULARIZE=1 -s EXPORT_NAME="Module" -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s INITIAL_MEMORY=16MB -O3 -msimd128
 
 if errorlevel 1 (
     echo Build failed!

@@ -18,7 +18,7 @@ mkdir -p build
 # Compile WASM SIMD and C to WebAssembly
 emcc src/c/ann_wrapper.c src/asm/ann_simd.c \
   -o build/neurobrain.js \
-  -s EXPORTED_FUNCTIONS='["_train_ann","_run_ann","_malloc","_free"]' \
+  -s EXPORTED_FUNCTIONS='["_train_ann","_train_ann_v2","_run_ann","_get_weights","_malloc","_free"]' \
   -s EXPORTED_RUNTIME_METHODS='["cwrap","HEAPF32"]' \
   -s MODULARIZE=1 \
   -s EXPORT_NAME='Module' \

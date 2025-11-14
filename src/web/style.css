@@ -57,6 +57,147 @@ section {
     background: rgba(0, 255, 65, 0.02);
 }
 
+/* Dataset Selector */
+.dataset-selector {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: rgba(0, 255, 65, 0.03);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    border-radius: 5px;
+}
+
+.dataset-selector h3 {
+    color: #00ff41;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+.selector-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    align-items: stretch;
+}
+
+.selector-controls .action-button {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.dataset-dropdown {
+    flex: 1;
+    min-width: 200px;
+    background: #000;
+    border: 1px solid #00ff41;
+    color: #00ff41;
+    padding: 12px;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 0.95rem;
+    border-radius: 3px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%2300ff41" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    padding-right: 35px;
+    transition: all 0.3s;
+}
+
+.dataset-dropdown:hover {
+    border-color: #33ff77;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.dataset-dropdown:focus {
+    outline: none;
+    box-shadow: 0 0 15px #00ff41;
+    border-color: #33ff77;
+}
+
+.dataset-dropdown option {
+    background: #0a0a0a;
+    color: #00ff41;
+    padding: 10px;
+}
+
+.dataset-info {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 255, 65, 0.5);
+    border-left: 3px solid #00ff41;
+    padding: 15px;
+    border-radius: 3px;
+    animation: slideDown 0.3s ease-out;
+}
+
+.dataset-info h4 {
+    color: #00ff41;
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.dataset-info p {
+    color: #33ff77;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.dataset-info .info-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.dataset-info .info-item {
+    color: #33ff77;
+    font-size: 0.85rem;
+}
+
+.dataset-info .info-item strong {
+    color: #00ff41;
+}
+
+.data-source-divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.data-source-divider::before,
+.data-source-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: rgba(0, 255, 65, 0.3);
+}
+
+.data-source-divider::before {
+    left: 0;
+}
+
+.data-source-divider::after {
+    right: 0;
+}
+
+.data-source-divider span {
+    color: #666;
+    font-size: 0.9rem;
+    padding: 0 15px;
+    background: rgba(0, 255, 65, 0.02);
+}
+
+.csv-upload h3 {
+    color: #00ff41;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #00ff41;
+}
+
 /* Upload Area */
 .upload-area {
     border: 2px dashed #00ff41;
@@ -159,6 +300,156 @@ section {
     box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
 }
 
+/* Network Configuration Controls */
+.config-controls {
+    background: rgba(0, 255, 65, 0.03);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    animation: slideDown 0.3s ease-out;
+}
+
+.config-controls h3 {
+    color: #00ff41;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+.config-group {
+    margin-bottom: 20px;
+}
+
+.config-group:last-child {
+    margin-bottom: 0;
+}
+
+.config-group label {
+    display: block;
+    color: #33ff77;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+}
+
+.slider-value {
+    color: #00ff41;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+.config-select {
+    width: 100%;
+    background: #000;
+    border: 1px solid #00ff41;
+    color: #00ff41;
+    padding: 12px;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 0.95rem;
+    border-radius: 3px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%2300ff41" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    padding-right: 35px;
+    transition: all 0.3s;
+}
+
+.config-select:hover {
+    border-color: #33ff77;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.config-select:focus {
+    outline: none;
+    box-shadow: 0 0 15px #00ff41;
+    border-color: #33ff77;
+}
+
+.config-select option {
+    background: #0a0a0a;
+    color: #00ff41;
+    padding: 10px;
+}
+
+.config-slider {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 255, 65, 0.2);
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.config-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #00ff41;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px #00ff41, 0 0 20px rgba(0, 255, 65, 0.5);
+    transition: all 0.3s;
+}
+
+.config-slider::-webkit-slider-thumb:hover {
+    background: #33ff77;
+    box-shadow: 0 0 15px #00ff41, 0 0 30px rgba(0, 255, 65, 0.7);
+    transform: scale(1.1);
+}
+
+.config-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #00ff41;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px #00ff41, 0 0 20px rgba(0, 255, 65, 0.5);
+    transition: all 0.3s;
+}
+
+.config-slider::-moz-range-thumb:hover {
+    background: #33ff77;
+    box-shadow: 0 0 15px #00ff41, 0 0 30px rgba(0, 255, 65, 0.7);
+    transform: scale(1.1);
+}
+
+.config-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 255, 65, 0.2);
+    border-radius: 5px;
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.config-slider::-moz-range-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 255, 65, 0.2);
+    border-radius: 5px;
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.config-slider:focus {
+    outline: none;
+}
+
+.config-slider:focus::-webkit-slider-runnable-track {
+    background: rgba(0, 255, 65, 0.3);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.config-slider:focus::-moz-range-track {
+    background: rgba(0, 255, 65, 0.3);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
 /* Network Configuration Display */
 .network-config {
     background: rgba(0, 255, 65, 0.05);
@@ -172,6 +463,121 @@ section {
 
 .network-config strong {
     color: #00ff41;
+}
+
+/* Loss Graph Visualization */
+.loss-graph-container {
+    background: rgba(0, 255, 65, 0.03);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    animation: slideDown 0.3s ease-out, fadeIn 0.5s ease-out;
+}
+
+.loss-graph-container h3 {
+    color: #00ff41;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+#lossGraphCanvas {
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #00ff41;
+    border-radius: 3px;
+    background: #1a1a1a;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+}
+
+.final-loss-display {
+    text-align: center;
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 255, 65, 0.5);
+    border-radius: 3px;
+    color: #33ff77;
+    font-size: 0.95rem;
+}
+
+.final-loss-display strong {
+    color: #00ff41;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+/* Accuracy Display */
+.accuracy-display {
+    text-align: center;
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 255, 65, 0.5);
+    border-radius: 3px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px currentColor;
+}
+
+/* Weight Heatmap Visualization */
+.weight-heatmap-container {
+    background: rgba(0, 255, 65, 0.03);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    animation: slideDown 0.3s ease-out, fadeIn 0.5s ease-out;
+}
+
+.weight-heatmap-container h3 {
+    color: #00ff41;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+.heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+.heatmap-item {
+    width: 100%;
+    max-width: 450px;
+}
+
+.heatmap-item canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #00ff41;
+    border-radius: 3px;
+    background: #1a1a1a;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+    cursor: crosshair;
+    transition: box-shadow 0.3s;
+}
+
+.heatmap-item canvas:hover {
+    box-shadow: 0 0 25px rgba(0, 255, 65, 0.4);
+}
+
+/* Weight Heatmap Tooltip */
+.weight-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid #00ff41;
+    color: #00ff41;
+    padding: 8px 12px;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+    white-space: nowrap;
 }
 
 /* Encoding Summary Display */
@@ -743,6 +1149,28 @@ section.visible {
     .modal-content {
         margin: 30px auto;
     }
+    
+    .heatmap-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .heatmap-item {
+        max-width: 100%;
+    }
+    
+    #lossGraphCanvas {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .selector-controls {
+        flex-direction: column;
+    }
+    
+    .dataset-dropdown {
+        min-width: 100%;
+    }
 }
 
 @media (max-width: 600px) {
@@ -792,6 +1220,23 @@ section.visible {
     .encoding-summary {
         padding: 12px;
         font-size: 0.85rem;
+    }
+    
+    .config-controls {
+        padding: 15px;
+    }
+    
+    .loss-graph-container,
+    .weight-heatmap-container {
+        padding: 15px;
+    }
+    
+    #lossGraphCanvas {
+        width: 100%;
+    }
+    
+    .heatmap-item canvas {
+        width: 100%;
     }
 }
 
