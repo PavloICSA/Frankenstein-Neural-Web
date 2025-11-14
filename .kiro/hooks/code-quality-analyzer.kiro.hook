@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Code Quality Analyzer",
+  "description": "Monitors source code files for changes and provides suggestions for code improvements, including identifying code smells, recommending design patterns, and highlighting best practices to enhance readability, maintainability, and performance",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Analyze the modified code files for potential improvements. Focus on:\n\n1. **Code Smells**: Identify any code smells such as duplicated code, long functions, large classes, excessive parameters, or inappropriate naming\n2. **Design Patterns**: Suggest applicable design patterns that could improve the code structure\n3. **Best Practices**: Check adherence to language-specific best practices for assembly, C, JavaScript, HTML, and CSS\n4. **Readability**: Evaluate code clarity, naming conventions, comments, and documentation\n5. **Maintainability**: Assess modularity, coupling, cohesion, and ease of future modifications\n6. **Performance**: Identify potential performance bottlenecks or optimization opportunities, especially for assembly and C code\n\nConsider the project context:\n- This is a neural network implementation using x86-64 assembly, C, and WebAssembly\n- Assembly code should prioritize performance with SIMD optimizations\n- C code handles orchestration and memory management\n- JavaScript should be vanilla (no frameworks) and integrate cleanly with WASM\n\nProvide specific, actionable suggestions while maintaining existing functionality. Format your response with clear sections and prioritize the most impactful improvements."
+  }
+}

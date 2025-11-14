@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frankenstein Neural Web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ FRANKENSTEIN NEURAL WEB ⚡</h1>
+            <p class="subtitle">Assembly-Powered Neural Network in Your Browser</p>
+            <p class="subtitle" id="loadingIndicator" style="margin-top: 10px;">
+                <span class="loading-spinner"></span>Initializing WASM module...
+            </p>
+        </header>
+
+        <!-- Instructions Section -->
+        <section class="instructions-section">
+            <h2>[ HOW TO USE ]</h2>
+            <button class="toggle-instructions" id="toggleInstructions">
+                <span class="toggle-icon">▼</span> Show Instructions
+            </button>
+            
+            <div class="instructions-content" id="instructionsContent" style="display: none;">
+                
+                <!-- Data Preparation -->
+                <div class="instruction-block">
+                    <h3>⚡ Data Preparation</h3>
+                    <div class="instruction-text">
+                        <p><strong>CSV Format Requirements:</strong></p>
+                        <ul>
+                            <li>First row must contain column headers</li>
+                            <li>1-10 input features (columns), plus 1 output column</li>
+                            <li>Last column is treated as the output/target variable</li>
+                            <li>Supports both numeric and categorical (string) data</li>
+                            <li>No empty cells - all values must be present</li>
+                            <li>Use comma (,) as delimiter</li>
+                        </ul>
+                        
+                        <p><strong>Data Types:</strong></p>
+                        <ul>
+                            <li><strong>Numeric:</strong> Any decimal or integer values (e.g., 1.5, 42, -3.14)</li>
+                            <li><strong>Categorical:</strong> Text labels (e.g., "red", "blue", "yes", "no")</li>
+                            <li><strong>Mixed:</strong> Combine both types in the same dataset</li>
+                        </ul>
+                        
+                        <p class="tip">💡 <strong>Tip:</strong> The system automatically detects data types and encodes categorical values as numbers for neural network processing.</p>
+                    </div>
+                </div>
+
+                <!-- Example Datasets -->
+                <div class="instruction-block">
+                    <h3>⚡ Example Datasets</h3>
+                    <div class="instruction-text">
+                        <p>Download these sample datasets to get started:</p>
+                        
+                        <div class="example-dataset">
+                            <h4>1. Numeric Only - House Prices</h4>
+                            <p>Predict house prices based on size and bedrooms.</p>
+                            <button class="download-example" data-example="numeric">Download CSV</button>
+                            <pre class="code-block">size,bedrooms,price
+1200,2,250000
+1800,3,350000
+2400,4,450000
+1500,2,280000
+2000,3,380000</pre>
+                        </div>
+                        
+                        <div class="example-dataset">
+                            <h4>2. Categorical Only - Fruit Classification</h4>
+                            <p>Classify fruits based on color and size.</p>
+                            <button class="download-example" data-example="categorical">Download CSV</button>
+                            <pre class="code-block">color,size,fruit
+red,small,apple
+yellow,medium,banana
+orange,medium,orange
+red,large,apple
+yellow,large,banana</pre>
+                        </div>
+                        
+                        <div class="example-dataset">
+                            <h4>3. Mixed Data - Customer Purchase Prediction</h4>
+                            <p>Predict purchases using age (numeric) and membership (categorical).</p>
+                            <button class="download-example" data-example="mixed">Download CSV</button>
+                            <pre class="code-block">age,membership,income,purchased
+25,bronze,45000,no
+35,gold,75000,yes
+45,silver,60000,yes
+22,bronze,35000,no
+50,gold,95000,yes</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Process -->
+                <div class="instruction-block">
+                    <h3>⚡ Training Process</h3>
+                    <div class="instruction-text">
+                        <p><strong>Step-by-Step Guide:</strong></p>
+                        <ol>
+                            <li><strong>Upload CSV:</strong> Drag and drop or click to select your CSV file</li>
+                            <li><strong>Review Encoding:</strong> Check the data summary showing detected types and encodings</li>
+                            <li><strong>Start Training:</strong> Click "Train Neural Core" to begin</li>
+                            <li><strong>Monitor Progress:</strong> Watch the loss value decrease in the terminal</li>
+                            <li><strong>Wait for Completion:</strong> Training completes after 1000 epochs</li>
+                        </ol>
+                        
+                        <p><strong>Understanding Loss Values:</strong></p>
+                        <ul>
+                            <li><strong>Loss:</strong> Measures how wrong the network's predictions are</li>
+                            <li><strong>Lower is better:</strong> Loss should decrease during training</li>
+                            <li><strong>Good training:</strong> Loss drops from ~0.5 to &lt;0.1</li>
+                            <li><strong>Stuck loss:</strong> If loss doesn't decrease, try different data or more rows</li>
+                        </ul>
+                        
+                        <p class="tip">💡 <strong>Tip:</strong> The network has 6 hidden neurons and uses gradient descent with backpropagation. Training runs for 1000 epochs automatically.</p>
+                    </div>
+                </div>
+
+                <!-- Making Predictions -->
+                <div class="instruction-block">
+                    <h3>⚡ Making Predictions</h3>
+                    <div class="instruction-text">
+                        <p><strong>How to Use the Prediction Interface:</strong></p>
+                        <ol>
+                            <li><strong>Wait for Training:</strong> Prediction interface appears after training completes</li>
+                            <li><strong>Enter Values:</strong> Fill in all input fields with appropriate values</li>
+                            <li><strong>Numeric Inputs:</strong> Enter numbers directly (e.g., 1500, 3.5)</li>
+                            <li><strong>Categorical Inputs:</strong> Select from dropdown or type known values</li>
+                            <li><strong>Click Predict:</strong> Get instant results from the trained network</li>
+                        </ol>
+                        
+                        <p><strong>Understanding Results:</strong></p>
+                        <ul>
+                            <li><strong>Numeric Output:</strong> Shows the predicted number</li>
+                            <li><strong>Categorical Output:</strong> Shows the decoded label (e.g., "yes", "apple")</li>
+                            <li><strong>Confidence:</strong> Values closer to 0 or 1 indicate higher confidence</li>
+                            <li><strong>Unknown Values:</strong> Warning appears if you enter values not in training data</li>
+                        </ul>
+                        
+                        <p class="tip">💡 <strong>Tip:</strong> For best results, use input values similar to those in your training data. The network learns patterns from the data you provide.</p>
+                    </div>
+                </div>
+
+                <!-- Technical Details -->
+                <div class="instruction-block">
+                    <h3>⚡ Technical Details</h3>
+                    <div class="instruction-text">
+                        <p><strong>Architecture:</strong></p>
+                        <ul>
+                            <li>3-layer neural network: Input → Hidden (6 neurons) → Output</li>
+                            <li>Sigmoid activation functions</li>
+                            <li>Gradient descent optimization with backpropagation</li>
+                            <li>Learning rate: 0.1</li>
+                        </ul>
+                        
+                        <p><strong>Performance:</strong></p>
+                        <ul>
+                            <li>Powered by WebAssembly SIMD for fast computation</li>
+                            <li>Runs entirely in your browser - no server required</li>
+                            <li>All data stays on your device</li>
+                            <li>Optimized with x86-64 assembly instructions</li>
+                        </ul>
+                        
+                        <p><strong>Data Encoding:</strong></p>
+                        <ul>
+                            <li>Categorical values automatically converted to numbers (label encoding)</li>
+                            <li>Each unique string gets a sequential integer (0, 1, 2, ...)</li>
+                            <li>Encoding is consistent and reversible</li>
+                            <li>Numeric values pass through unchanged</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <main>
+            <!-- File Upload Section -->
+            <section class="upload-section">
+                <h2>[ DATA INJECTION ]</h2>
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="fileInput" accept=".csv" />
+                    <p>Drop CSV file here or click to select</p>
+                    <p class="file-hint">Format: x1,x2,...,xN,y (1-10 inputs)</p>
+                </div>
+                <div id="validationMessage" class="message"></div>
+            </section>
+
+            <!-- Training Section -->
+            <section class="training-section">
+                <h2>[ NEURAL CORE ACTIVATION ]</h2>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+                    <button id="trainButton" class="action-button" disabled title="Train the neural network on uploaded data">
+                        Train Neural Core
+                    </button>
+                    <button id="clearButton" class="action-button secondary-button" style="display: none;" title="Clear data and reset to upload new CSV">
+                        Clear & Reset
+                    </button>
+                </div>
+                <div id="networkConfig" class="network-config" style="display: none;"></div>
+                <div id="trainingStatus" class="terminal"></div>
+            </section>
+
+            <!-- Prediction Section -->
+            <section class="prediction-section" id="predictionSection" style="display: none;">
+                <h2>[ INFERENCE ENGINE ]</h2>
+                <div id="predictionInputs" class="input-container"></div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button id="predictButton" class="action-button" title="Make a prediction using the trained network">
+                        Predict
+                    </button>
+                    <button id="downloadButton" class="action-button secondary-button" title="Download prediction results as CSV">
+                        Download Results
+                    </button>
+                </div>
+                <div id="predictionOutput" class="output-display"></div>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="footer-nav">
+                <a href="#" id="instructionsLink">Instructions</a>
+                <a href="#" id="termsLink">Terms of Service</a>
+                <a href="#" id="privacyLink">Privacy Policy</a>
+                <a href="#" id="contactLink">Contact</a>
+            </nav>
+            <p>Powered by x86-64 Assembly + WebAssembly</p>
+        </footer>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modalOverlay" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="../../build/neurobrain.js"></script>
+    <script src="encoder.js"></script>
+    <script src="app.js" defer></script>
+    <script src="modal-manager.js"></script>
+</body>
+</html>

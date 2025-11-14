@@ -1,0 +1,11 @@
+age,membership,income,purchased
+25,bronze,45000,no
+35,gold,75000,yes
+45,silver,60000,yes
+22,bronze,35000,no
+50,gold,95000,yes
+28,silver,50000,no
+40,gold,85000,yes
+33,bronze,42000,no
+48,silver,68000,yes
+26,gold,72000,yes

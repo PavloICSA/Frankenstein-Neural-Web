@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Source to Docs Sync",
+  "description": "Watches all source files (assembly, C, JavaScript, HTML, CSS), build scripts, and data files. When changes occur, triggers documentation updates in README.md or relevant markdown files to keep docs in sync with code changes.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Source files have been modified. Review the changes and update the documentation accordingly. Check if README.md, QUICKSTART.md, or other markdown documentation files need updates to reflect the code changes. Consider updating: architecture descriptions, API documentation, usage examples, build instructions, feature lists, or technical specifications. Make sure documentation stays accurate and in sync with the current codebase."
+  }
+}
