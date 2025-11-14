@@ -2,6 +2,8 @@
 
 A browser-based artificial neural network with WebAssembly SIMD optimization. Train networks on CSV data with mixed numeric and categorical features.
 
+## 🚀 [Try it Now - Live Demo](https://app.netlify.com/projects/frankensteinneuralweb/overview)
+
 ## Quick Start
 
 1. **Build**: `./build.sh` (Linux/Mac) or `.\build.bat` (Windows)

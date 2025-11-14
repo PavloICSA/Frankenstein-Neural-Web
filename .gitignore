@@ -1,5 +1,6 @@
 # Build output
 build/
+dist/
 
 # Node modules (if any)
 node_modules/
